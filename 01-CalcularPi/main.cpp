@@ -1,22 +1,35 @@
 #include <iostream>
-
 using namespace std;
 
-//Función para obtener pi
-double HallarPi (int iteraciones) {
+double calcularPi() {
     double pi = 0;
-    double numerador = 1;
-    for (int i = 0; i <= iteraciones; i++) {
-       pi += numerador/ (2*i + 1); //Serie de Liebtniz
-       numerador = -numerador; //El exponente par o impar en el numerador cambia el signo, alternándose desde el 0.
-    }
-    pi *= 4; //El resultado de la serie de Liebtniz es pi/4, por eso se multiplica por 4.
+    double resultado = 0;
+    double delta = 0.0000001; //Diferencia entre las iteraciones.
+    int denominador = 1;
+    float numerador = 1;
+
+    do {
+        resultado = numerador / denominador;
+        pi += resultado;
+        numerador *= -1;
+        denominador += 2;
+    } while (abs(resultado) >= delta);
+
+    /* El numerador empieza siendo uno, luego cambia
+    de signo por iteración. El denominador igual,
+    pero por iteración se le suma dos dado al 2
+    que multiplica al número de la sumatoria. 
+    Por el cambio de signo, usamos el valor
+    absoluto. */
+
+    pi *= 4;
+    //Ya que la serie de Liebtniz nos otorga pi/4, cancelamos al 4 al multiplicarlo por sí mismo.
+
     return pi;
 }
 
-int main () {
-    int iteraciones = 100000000; //Cantidad de iteraciones necesarias para la precisión pedida.
-    cout.precision(7); //Utilizamos siete decimales para no redondear el último decimal.
-    cout << "El número pi acotado es: " << fixed << HallarPi(iteraciones) << "...";
+int main() {
+    cout.precision(7); //Precisión en 7 decimales ya que sino redondea el último pedido.
+    cout << "El número pi aproximado es: " << fixed << calcularPi() << endl;
     return 0;
 }
